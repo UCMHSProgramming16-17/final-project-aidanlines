@@ -5,7 +5,7 @@ import math
 import bokeh
 
 #create a file
-csvfile = open('file.csv')
+csvfile = open('file.csv', 'w')
 #create csv writer
 csvwriter = csv.writer(csvfile, delimiter = ',')
 #write info
@@ -14,7 +14,7 @@ csvwriter.writerow(['Date', 'Temperature'])
 import requests
 import json
 
-url = "https://maps.googlesapis.com/maps/api/geocode/json"
+url = "https://maps.googleapis.com/maps/api/geocode/json"
 key = 'AIzaSyCn3211IW7eTGhTJMyzmo_Pg5DcU44y7Zk'
 
 address = input("Enter an address")
@@ -53,7 +53,7 @@ for year in range(year-50, year):
     
     weather = rl.json()
     
-    Temperature = weather['currently']['Temperature']
+    Temperature = weather['currently']['temperature']
     csvwriter.writerow([year, Temperature])
     
 #close writer
@@ -71,6 +71,6 @@ p = Scatter(df, x='Date', y='Temperature', color='red', title="Date vs. Temperat
 
 #p = Scatter(df, x='Date', y='Temperature', color='red', title="Date vs. Temperature", legend='top_right', xlabel="Date", ylabel="Temperature")
 
-output_file('')
+output_file('chart1.html')
 
 save(p)
