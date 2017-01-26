@@ -13,10 +13,8 @@ csvwriter.writerow(['Date', 'Temperature'])
 #import requests
 import requests
 import json
-
 url = "https://maps.googleapis.com/maps/api/geocode/json"
 key = 'AIzaSyCn3211IW7eTGhTJMyzmo_Pg5DcU44y7Zk'
-
 address = input("Enter an address")
 payload = {'key':'', 'address': address}
 #make a request
@@ -26,14 +24,12 @@ r = requests.get(url, params=payload)
 data = r.json()
 # print data
 location = data['results'][0]
-
 geometry = location['geometry']['location']
 #print data
 lat = str(geometry['lat'])
 lon = str(geometry['lng']) 
 
 #creating url for requests
-
 endpoint = 'https://api.darksky.net/forecast/'
 key1 = '6082702572cc4f7ca09810632e2ec8b8'
 payload1 = {'units' : 'us'}
@@ -60,17 +56,23 @@ for year in range(year-50, year):
 csvfile.close()
 
 import bokeh
-
 import pandas as pd
-
 from bokeh.charts import Scatter, output_file, save
 
 df = pd.read_csv('file.csv')
-
-p = Scatter(df, x='Date', y='Temperature', color='red', title="Date vs. Temperature", legend='top_right', xlabel="Date", ylabel="Temperature")
-
+p = Scatter(df, x='Date', y='Temperature', color='orange', title="Date vs. Temperature", legend='top_right', xlabel="Date", ylabel="Temperature")
 #p = Scatter(df, x='Date', y='Temperature', color='red', title="Date vs. Temperature", legend='top_right', xlabel="Date", ylabel="Temperature")
 
 output_file('chart1.html')
 
 save(p)
+
+
+from bokeh.charts import Bar, output_file, save
+#create a bar graph
+v = Bar(df, label='year', values='temperature', agg='median', group='origin', title="Date vs. Temperature", legend='top_right')
+
+output_file('chart2.html')
+
+#Save graph as a html file
+save(v)
